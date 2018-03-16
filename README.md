@@ -1,6 +1,6 @@
-# {{ name }}
+# Vue JS components
 
-> {{ description }}
+> Fetching data by vue.js in single file components
 
 ## Build Setup
 
