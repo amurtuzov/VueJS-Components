@@ -4,7 +4,7 @@
       		<div class="modal-wrapper">
         		<div class="modal-container">
           			<div class="modal-header">
-              			default header
+              			Album: {{albumName}}
           			</div>
           			<div class="modal-body">
               			<div v-for="photo in lazyLoadPhotos">
@@ -12,8 +12,8 @@
               			</div>
           			</div>
           			<div class="modal-footer">
-              			<button class="modal-default-button" @click="$emit('close')" v-on:click="closeModal">OK</button>
-              			<button class="modal-default-button" @click="getMorePhotos">more</button>
+              			<button class="modal-default-button close-btn" @click="$emit('close')" v-on:click="closeModal">Close</button>
+              			<button class="modal-default-button loadPhotos-btn" @click="getMorePhotos">More photos</button>
           			</div>
         		</div>
       		</div>
@@ -37,6 +37,9 @@
       },
       showModal: {
         type: Boolean
+      },
+      albumName: {
+        type: String
       }
     },
     methods: {
@@ -60,12 +63,12 @@
 
 <style>
 	.modal-mask {
-  position: absolute;
+  position: fixed;
   z-index: 9998;
-  top: 0;
+  top: 0; 
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, .5);
   display: table;
   transition: opacity .3s ease;
@@ -103,8 +106,21 @@
   justify-content: space-around;
 }
 
-.modal-default-button {
+/*.modal-default-button {
   float: right;
+}*/
+.modal-footer {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.modal-footer .loadPhotos-btn {
+  width: 100px;
+  margin: auto;
+}
+.modal-footer .close-btn {
+  width: 50px;
+  margin-left: auto;
+  margin-top: 20px;
 }
 
 /*

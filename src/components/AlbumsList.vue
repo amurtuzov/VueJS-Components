@@ -1,23 +1,23 @@
 <template>
 	<div>
 	<transition name="slide-fade">
-		<table cellspacing="1" border="1" class="photographer-albums" v-show="photographer.expanded">
+		<table cellspacing="0" border="1" class="photographer-albums" v-show="photographer.expanded">
 			<tbody>
 				<tr>
-					<td>Album id</td><td><input class="search-field" type="text" v-model="filter" placeholder="Search by album name"></td>
+					<td>Album number</td><td><input class="search-field" type="text" v-model="filter" placeholder="Search by album name"></td>
 				</tr>
 				<tr v-for="album, key in filteredList(photographer.albums)">
-					<td>{{++key}}</td><td @click="getPhotos(album.id)">{{ album.title }}</td>
+					<td>{{++key}}</td><td class="album-name" @click="getPhotos(album.id, album.title)">{{ album.title }}</td>
 				</tr>
 			</tbody>
 		</table>
 	</transition>
-				<PhotosModal
+			<PhotosModal
     		v-if="showModal" 
     		:lazyLoadPhotos="lazyLoadPhotos"
     		:photos="photos"
-    		@close="showModal = false"
-    		
+    		:albumName="albumName"
+    		@close="showModal = false" 		
     		/>
 	</div>
 </template>
@@ -31,6 +31,7 @@ export default {
 			photos: [],
 			lazyLoadPhotos: [],
 			showModal: false,
+			albumName: ''
 		}
 	},
 	components: {
@@ -54,7 +55,7 @@ export default {
 				})
 			}
 		},
-		getPhotos: function(id) {
+		getPhotos: function(id, title) {
 			let url ="https://jsonplaceholder.typicode.com/photos/?albumId=" + id;
 			this.getData(url).then(function(response) {
 				this.photos = response.data;
@@ -63,7 +64,9 @@ export default {
 							this.lazyLoadPhotos.push(photo)
 						}
 					});
+					this.albumName = title;
 					this.showModal = true;
+
 			}.bind(this));
 		},
 	}
@@ -71,7 +74,7 @@ export default {
 </script>
 
 <style>
-	.photographer-albums {
+.photographer-albums {
 	border-spacing: 0;
 	margin-top: 10px;
 	margin-left: 10px;
@@ -81,12 +84,24 @@ export default {
 	background-color: #ffffff;
 }
 
+.photographer-albums td {
+	padding: 5px;
+}
+
 .search-field {
 	border: none;
+	outline: none;
 	width: 100%;
 	box-sizing: border-box;
 	height: 100%;
-	width: 100%;
+}
+.album-name {
+	cursor: pointer;
+	font-style: italic;
+	color: #000000;
+}
+.album-name:first-letter {
+	text-transform: uppercase;
 }
 
 .slide-fade-enter-active {

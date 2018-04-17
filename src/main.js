@@ -4,7 +4,7 @@ import VueAxios from 'vue-axios'
 import App from './App.vue'
 Vue.use(VueAxios, axios)
 
-new Vue ({
+new Vue({
   el: '#app',
   template: '<App/>',
   components: { App }
